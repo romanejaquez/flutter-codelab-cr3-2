@@ -1,0 +1,490 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Flutter Codelab / Coding Roulette: Full Stack Flutter Apps Workshop (pt.2): Creating the Login Page</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="flutter-codelab-cr3-2"
+                  title="Flutter Codelab / Coding Roulette: Full Stack Flutter Apps Workshop (pt.2): Creating the Login Page"
+                  environment="web"
+                  feedback-link="https://romanjustcodes.web.app">
+    
+      <google-codelab-step label="Overview" duration="0">
+        <h2 is-upgraded>What You&#39;ll Build in this Workshop:</h2>
+<ul>
+<li>A login page of a Flutter Application for a fictitious banking institution (Flutter Savings Bank)</li>
+</ul>
+<p>You will also learn about the following:</p>
+<ul>
+<li>Create Flutter User interfaces with ease</li>
+<li>Common Flutter Layout strategies using just core widgets</li>
+<li>Creating custom Flutter widgets and achieve widget composition</li>
+<li>Using Material Icon fonts</li>
+</ul>
+<p class="image-container"><img alt="Login Screen" src="img/8548b1db400488e3.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Login Screen and its widget composition" duration="0">
+        <p>The following illustration shows a schematic view of the widget composition we&#39;ll accomplish while building the layout for our login screen widget:</p>
+<p class="image-container"><img alt="Login Screen" src="img/bf9a73d5ff53cada.png"></p>
+<h2 is-upgraded>Flesh out the FlutterBankLogin page widget</h2>
+<p>In the <a href="https://romanejaquez.github.io/flutter-codelab-cr3-1/#6" target="_blank">previous lab</a>, we created the skeleton of our login page, consisting of a <strong>StatefulWidget</strong> called <strong>FlutterBankLogin</strong>. We made it <strong>stateful</strong> since this widget will maintain its own state internally as well as externally, and rebuild itself as the state of its components (textfields, buttons, etc.) change.</p>
+<p>Let&#39;s start building the structure of this page and focus on this widget&#39;s <strong>build</strong> method.</p>
+<p>To the <strong>Scaffold</strong> widget, set its background to white, and as its body, add a <strong>Container</strong> widget with 30px of padding all around:</p>
+<p class="image-container"><img alt="Login Screen" src="img/9f528c926ff3d260.png"></p>
+<p>As the sole child of this <strong>Container</strong>, add a <strong>Column</strong> widget with <strong>crossAxisAlignment</strong> set to <strong>start</strong> so its children are left aligned, and an empty children list for now:</p>
+<p class="image-container"><img alt="Login Screen" src="img/69b976788ff62d7d.png"></p>
+<p>Let&#39;s add the first child to this <strong>Column</strong> - the container representing the app&#39;s logo. Let&#39;s add a <strong>Container</strong> of 80px by 80px, with a 7px border, with 100px of border radius, and using the <strong>mainThemeColor</strong> as its color. As the child of this <strong>Container</strong>, set it to be an <strong>Icon</strong> widget, 45px in size with the same <strong>mainThemeColor</strong> for consistency:</p>
+<p class="image-container"><img alt="Splash Screen" src="img/e60af61e4e754c14.png"></p>
+<p>Run it on DartPad and you should get this output in the preview:</p>
+<p class="image-container"><img alt="Splash Screen" src="img/d4bcc47e0ff42fcf.png"></p>
+<p>Let&#39;s add some spacing and some of the labels we have in our design:</p>
+<p class="image-container"><img alt="Login Screen" src="img/1e56c3a57a08b984.png"></p>
+<p>And run it on DartPad real quick and it should look as follows:</p>
+<p class="image-container"><img alt="Login Screen" src="img/4eaa67256f657c1f.png"></p>
+<p>Let&#39;s work on the middle section of this page, where we&#39;ll add the input fields.</p>
+<p>Add an <strong>Expanded</strong> widget since it will occupy most of the real estate in the <strong>Column</strong> widget. Add as its inmediate child a <strong>Center</strong> widget wrapping another <strong>Column</strong> widget, with its items centered vertically (<strong>MainAxisAlignment.center</strong>) and stretched horizontally (<strong>CrossAxisAlignment.stretch</strong>) as follows:</p>
+<p class="image-container"><img alt="Login Screen" src="img/6ebeedf73e347be0.png"></p>
+<aside class="special"><p>For brevity, we&#39;ll focus on the <strong>Expanded</strong> widget for the next couple of sections.</p>
+</aside>
+<p>Let&#39;s add the first <strong>Text</strong> widget and some spacing underneath it:</p>
+<p class="image-container"><img alt="Login Screen" src="img/4eb40468b7fc19b4.png"></p>
+<p>We&#39;re going to now add both textfields for the user to input the email and password. At the top of the <strong>FlutterBankLoginState</strong> class, add two <strong>TextEditingController</strong> instances, one for each of our fields. The <a href="https://api.flutter.dev/flutter/widgets/TextEditingController-class.html" target="_blank"><strong>TextEditingController</strong></a> allows us to controller the actions on a <strong>TextField</strong> widget, get notifications on text field updates, set initial values, get its provided input, etc.</p>
+<p class="image-container"><img alt="Login Screen" src="img/e5ae33836f29758f.png"></p>
+<p>Back on our widget structure, let&#39;s create the first <strong>TextField</strong> widget, wrapped inside a <strong>Container</strong> that gives it that rounded-edge style. Add the <strong>Container</strong> widget first, with the following specs:</p>
+<ul>
+<li>padding of 5px all around</li>
+<li>gray in color (with 20% opacity)</li>
+<li>50px border radius</li>
+</ul>
+<p class="image-container"><img alt="Login Screen" src="img/cd79be2c6a7f3771.png"></p>
+<p>Now, as the child of that <strong>Container</strong>, add a <strong>TextField</strong> widget with the following specs:</p>
+<ul>
+<li>style: font size of 16px</li>
+<li>controller: set it to be the <strong>usernameController</strong> we created earlier</li>
+<li>decoration: this is to customize it so it blends in with our design:  <ul>
+<li>border: no borders</li>
+<li>prefixIcon: set it to an <strong>Icon</strong> widget (Icons.email) with color of <strong>mainThemeColor</strong>; this shows the icon in front of the text field</li>
+<li>disable all borders (set them to <strong>none</strong> for now: enabledBorder, errorBorder, disabledBorder, focusedBorder).</li>
+<li>contentPadding: 20px left, 11px top and bottom, 15px right</li>
+<li>hintText: placeholder text, set it to be &#34;Email&#34;</li>
+<li>onChanged: event that triggers every time the text changes in the field; we&#39;ll use this later. Set it to trigger the <strong>setState</strong> method available to <strong>StatefulWidget</strong> widgets so it rebuilds the UI.</li>
+</ul>
+</li>
+</ul>
+<p>Your username <strong>TextField</strong> widget should look as follows:</p>
+<p class="image-container"><img alt="Login Screen" src="img/dc68c9825ae4870b.png"></p>
+<p>Running this on DartPad, you should get the following so far:</p>
+<p class="image-container"><img alt="Login Screen" src="img/3c5c8728414b4f2a.png"></p>
+<p>Apply the same treatment for the <strong>TextField</strong> representing the password field, adding first its corresponding wrapper <strong>Container</strong> with some spacing right above it:</p>
+<p class="image-container"><img alt="Login Screen" src="img/64beab401ba6f14d.png"></p>
+<p>As the child of this <strong>Container</strong>, add the textfield representing the password (similar to the username field) but with some additional properties:</p>
+<ul>
+<li>obscureText: true (to make it so the text is not shown as the user types)</li>
+<li>obscuringCharacter: the character to replace the text being obscured (use an asterisk &#34;*&#34;)</li>
+<li>style: font size of 16px</li>
+<li>controller: set it to be the <strong>passwordController</strong> we created earlier</li>
+<li>decoration: this is to customize it so it blends in with our design:  <ul>
+<li>border: no borders</li>
+<li>prefixIcon: set it to an <strong>Icon</strong> widget (Icons.lock) with color of <strong>mainThemeColor</strong>; this shows the icon in front of the text field</li>
+<li>disable all borders (set them to <strong>none</strong> for now: enabledBorder, errorBorder, disabledBorder, focusedBorder).</li>
+<li>contentPadding: 20px left, 11px top and bottom, 15px right</li>
+<li>hintText: placeholder text, set it to be &#34;Password&#34;</li>
+<li>onChanged: event that triggers every time the text changes in the field; we&#39;ll use this later. Set it to trigger the <strong>setState</strong> method available to <strong>StatefulWidget</strong> widgets so it rebuilds the UI.</li>
+</ul>
+</li>
+</ul>
+<p>Your password <strong>TextField</strong> widget should look as follows:</p>
+<p class="image-container"><img alt="Login Screen" src="img/727962a4231d95c6.png"></p>
+<p>And running it on DartPad, we get the following output:</p>
+<p class="image-container"><img alt="Login Screen" src="img/aeb0b95588d0f4f2.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Creating the login page action buttons" duration="0">
+        <p>Now that the top portion of this login page is pretty much done, let&#39;s focus on the two action buttons (<strong>Sign In</strong> and <strong>Register</strong>), which we&#39;ll create as custom widgets so we can reuse them throughout.</p>
+<p class="image-container"><img alt="Login Screen" src="img/73c08893ca8591af.png"></p>
+<p>The following is a schematic of how they are composed and how we&#39;ll create them:</p>
+<p class="image-container"><img alt="Login Screen" src="img/30737e67c15cc54d.png"></p>
+<p>Let&#39;s get back to the main <strong>Column</strong> widget laying out the main components on this page, and start placing our buttons under the <strong>Expanded</strong> widget we just worked on.</p>
+<p>Start by creating a separate class called <strong>FlutterBankMainButton</strong> that extends <strong>StatelessWidget</strong>. Return an empty <strong>Column</strong> widget from its <strong>build</strong> method since it will serve as our button&#39;s foundation. Add a constructor that populates three internal class properties:</p>
+<ul>
+<li>label: type <strong>String</strong>, will represent the label to show on the button</li>
+<li>enabled: type <strong>boolean</strong>, will be used to render the button according to its enabled state; give it a default state of <strong>true</strong> in the constructor</li>
+<li>onTap: type <strong>Function</strong>, receives a callback that will be triggered from inside</li>
+</ul>
+<p>Your code should look as follows:</p>
+<p class="image-container"><img alt="Login Screen" src="img/6261bed65cf3e1ed.png"></p>
+<p>Add a <strong>crossAxisAlignment</strong> of <strong>stretch</strong> to the <strong>Column</strong> widget so the contents stretch horizontally. Add a <strong>Container</strong> widget with 15px padding all around, 50px border radius, and as its child, a <strong>Text</strong> widget, feeding as its content the value provided by the <strong>label</strong> property. Center align the text, and make it white and bold, as follows:</p>
+<p class="image-container"><img alt="Login Screen" src="img/3a90d5c70a9540c3.png"></p>
+<p>To give it is clickability and button-like behavior, wrap the <strong>Container</strong> inside an <strong>InkWell</strong> widget. Add the following properties to the <strong>InkWell</strong>:</p>
+<ul>
+<li>highlightColor: white with 20% opacity</li>
+<li>splashColor: white with 10% opacity</li>
+<li>onTap: assign a callback that wraps the trigger this widget&#39;s <strong>onTap</strong> event only if the <strong>enabled</strong> property is true, <strong>null</strong> otherwise.</li>
+</ul>
+<p>Your code should look as follows:</p>
+<p class="image-container"><img alt="Login Screen" src="img/4d62b01ff0a4f86.png"></p>
+<p>Now, to give the <strong>InkWell</strong> its &#34;Material&#34; behavior, it must be wrapped inside a (yeah, you guessed it - a <strong>Material</strong> widget). Wrap the <strong>InkWell</strong> inside a <strong>Material</strong> widget, and set its <strong>color</strong> depending on whether the <strong>enabled</strong> property is true or not, so set its opacity to 50% when disabled which will give it that disabled look, as follows:</p>
+<p class="image-container"><img alt="Login Screen" src="img/7247364c0fc5b378.png"></p>
+<p>Not quite there yet. We want now to give this widget the rounded edges to match our design, so we need to clip thos edges using a <strong>ClipRRect</strong> widget, so wrap the whole hierarchy - including the <strong>Material</strong> widget inside a <strong>ClipRRect</strong> widget, with a 50px border radius applied to it:</p>
+<p class="image-container"><img alt="Login Screen" src="img/824abd9a92a79d76.png"></p>
+<p>I believe we are ready to consume this newly created widget!</p>
+<p>Back on the <strong>FlutterBankLoginState</strong> widget, below the <strong>Expanded</strong> widget inside the main <strong>Column</strong> widget, add this newly created <strong>FlutterBankMainButton</strong>, feeding into it the following values:</p>
+<ul>
+<li>label: set it to &#34;Sign In&#34;</li>
+<li>onTap: add an empty callback - we&#39;ll hook it up later to its functionality</li>
+<li>enabled: make it <strong>true</strong> for now; later we&#39;ll add the logic that will validate its state</li>
+</ul>
+<p>Your <strong>FlutterBankMainButton</strong> shoud look like this once in place:</p>
+<p class="image-container"><img alt="Login Screen" src="img/fd0f18035985fc91.png"></p>
+<p>Take it for a spin on DartPad, and you get the following on the screen:</p>
+<p class="image-container"><img alt="Login Screen" src="img/2a2397382f43204d.png"></p>
+<p>Not bad! we&#39;ve just created a very reusable component with very minimum effort and highly configurable!</p>
+<aside class="special"><p>Always follow this strategy of creating reusable small components whenever possible in order to make widgets more encapsulated and shareable.</p>
+</aside>
+<p>Let&#39;s proceed now and modify this button so we can reuse it as a passive button, and make it yet more configurable so it can accept an icon as well.</p>
+<h2 is-upgraded>Refactoring the FlutterBankMainButton</h2>
+<p>Let&#39;s change a few things on this widget, such as the ability to take in a background color and an icon so we can reuse it in other places.</p>
+<p>Back on the <strong>FlutterBankMainButton</strong> class, add the following additional properties and their corresponding constructor parameters, as follows:</p>
+<ul>
+<li>backgroundColor: represents the button color; mainThemeColor will be used if not provided</li>
+<li>iconColor: the color of the icon provided; Colors.white will be used by default if not supplied</li>
+<li>labelColor: the color of the label provided; Colors.white will be used by default if not supplied</li>
+<li>icon: type <strong>IconData</strong>, which would be optional (more on the logic for this in a minute)</li>
+</ul>
+<p class="image-container"><img alt="Login Screen" src="img/7afca4096eb6dd0b.png"></p>
+<p>Change the logic on the <strong>Material</strong> widget&#39;s backgroundColor, as such:</p>
+<p class="image-container"><img alt="Login Screen" src="img/e5d401c305b32c42.png"></p>
+<p>Change the inner structure of this widget&#39;s <strong>Container</strong> - instead of being just a <strong>Text</strong> widget, we&#39;ll make it a nested structure composed of a <strong>Row</strong> widget that holds the <strong>Icon</strong> and the <strong>Text</strong>. Let&#39;s work on the following:</p>
+<ul>
+<li><strong>Text</strong> widget: Add the <strong>labelColor</strong> property to the <strong>Text</strong> widget, remove the <strong>const</strong> keyword from the <strong>TextStyle</strong> as it won&#39;t be fixed anymore.</li>
+<li><strong>Icon</strong> widget: If the <strong>icon</strong> property is provided, we&#39;ll render the <strong>Icon</strong> (wrapped inside a <strong>Container</strong> to allow for some spacing to be applied), then the <strong>Text</strong> widget. Make sure the enclosing <strong>Row</strong> widget centers its children both horizontally and vertically (using <strong>MainAxisAlignment.center</strong> and <strong>CrossAxisAlignment.center</strong> respectively).</li>
+<li><strong>Container</strong>: Add a 20px margin on the right, to give its enclosing <strong>Icon</strong> widget some breathing room; wrap it inside a <strong>Visibility</strong> widget, and set its <strong>visible</strong> property based on whether the <strong>icon</strong> property is null or not.</li>
+</ul>
+<p>Your code should look like this:</p>
+<p class="image-container"><img alt="Login Screen" src="img/52e17b54b6b0716.png"></p>
+<p>Just like we did originally with the initial version of the <strong>FlutterBankMainButton</strong>, let&#39;s add it to the main login page structure, feeding into it the required properties that will make it look as a passive button, and adding some spacing on top of it for aesthetics:</p>
+<p class="image-container"><img alt="Login Screen" src="img/420e1829a51dac5e.png"></p>
+<p>Let&#39;s run it through DartPad and see what we&#39;ve achieved so far:</p>
+<p class="image-container"><img alt="Login Screen" src="img/125965b49a8b16d5.png"></p>
+<p>Looking good so far! We&#39;ve accomplished quite a bit up to this point! Pat yourself on the back if you&#39;ve made it this far - congrats!</p>
+<p>I think it&#39;s time for the second phase of this workshop, which is setting up our Firebase project so we can hook up the authentication functionality to this great UI we&#39;ve built so far.</p>
+<p>Are you ready? Let&#39;s go! - See you there on <a href="https://romanejaquez.github.io/flutter-codelab-cr3-3" target="_blank">codelab #3</a></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Wrap-up" duration="0">
+        <p>In this codelab, we accomplished the following:</p>
+<ul>
+<li>Created the login page (<strong>FlutterBankLogin</strong> page)</li>
+<li>Created a highly customizable button widget that we can reuse throughout our app</li>
+<li>Widget composition and styling</li>
+</ul>
+<p>In the <a href="https://romanejaquez.github.io/flutter-codelab-cr3-3" target="_blank">next codelab</a>, we&#39;ll  set up our Firebase project so we can start hooking up all the good backend functionality and bring this app to life, as well as continue fleshing out our login page, adding validation, setting up the state management and business logic that will encapsulate the authentication functionality, plus lots of good stuff!</p>
+<h3 is-upgraded>Please don&#39;t forget to follow me on social media:</h3>
+<ul>
+<li>On Twitter (<a href="https://www.twitter.com/drcoderz" target="_blank">@drcoderz</a>)</li>
+<li>On YouTube (<a href="https://www.youtube.com/channel/UCKsp3r1ERjCpKJtD2n5WtPg" target="_blank">Roman Just Codes</a>)</li>
+<li>On My <a href="https://romanjustcodes.web.app/#/home" target="_blank">Personal Portfolio</a></li>
+<li>On <a href="https://medium.com/@romanejaquez" target="_blank">Medium</a></li>
+<li>On <a href="https://www.linkedin.com/in/roman-jaquez-8941a424/" target="_blank">LinkedIn</a></li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Complete Code" duration="0">
+        <p>In case you fell behind on this codelab, below is the whole code for this codelab in a way you can copy / paste directly into DartPad:</p>
+<pre><code language="language-flutter" class="language-flutter">import &#39;package:flutter/material.dart&#39;;
+import &#39;package:google_fonts/google_fonts.dart&#39;;
+
+void main() {
+  runApp(FlutterBankApp());
+}
+
+class FlutterBankApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: ThemeData(
+        textTheme: GoogleFonts.poppinsTextTheme(
+          Theme.of(context).textTheme
+        )
+      ),
+      debugShowCheckedModeBanner: false,
+      home: FlutterBankSplash() 
+    );
+  }
+}
+
+class FlutterBankSplash extends StatelessWidget {
+  
+  @override
+  Widget build(BuildContext context) {
+
+    Future.delayed(const Duration(seconds: 2), () {
+       Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) =&gt; FlutterBankLogin())
+       );   
+     });
+
+    return Scaffold(
+      backgroundColor: Utils.mainThemeColor,
+      body: Stack(
+        children: const [
+          Center(
+            child: Icon(Icons.savings, color: Colors.white, size: 60)
+          ),
+          Center(
+            child: SizedBox(
+              width: 100,
+              height: 100,
+              child: CircularProgressIndicator(
+                strokeWidth: 8,
+                valueColor: AlwaysStoppedAnimation&lt;Color&gt;(Colors.white)
+              )
+            )
+          )
+        ],
+      )
+    );
+  }
+}
+
+class FlutterBankLogin extends StatefulWidget {
+  @override
+  FlutterBankLoginState createState() =&gt; FlutterBankLoginState();
+}
+
+class FlutterBankLoginState extends State&lt;FlutterBankLogin&gt;{
+
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Container(
+        padding: const EdgeInsets.all(30),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  width: 7,
+                  color: Utils.mainThemeColor
+                ),
+                borderRadius: BorderRadius.circular(100)
+              ),
+              child: const Icon(Icons.savings, color: Utils.mainThemeColor, size: 45)
+            ),
+            const SizedBox(height: 30),
+            const Text(&#39;Welcome to&#39;, style: TextStyle(color: Colors.grey, fontSize: 15)),
+            const Text(&#39;Flutter\nSavings Bank&#39;, 
+            style: TextStyle(color: Utils.mainThemeColor, fontSize: 30)),
+            Expanded(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center, 
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Text(&#39;Sign Into Your Bank Account&#39;, 
+                         textAlign: TextAlign.center, 
+                         style: TextStyle(color: Colors.grey, fontSize: 12)
+                    ),
+                    const SizedBox(height: 10),
+                    Container(
+                      padding: const EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(50)
+                      ),
+                      child: TextField(
+                        onChanged: (text) {
+                          setState(() {});
+                        },
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          prefixIcon: Icon(Icons.email, color: Utils.mainThemeColor),
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          disabledBorder: InputBorder.none,
+                          contentPadding: EdgeInsets.only(
+                            left: 20, bottom: 11, top: 11, right: 15
+                          ),
+                          hintText: &#34;Email&#34;
+                        ),
+                        style: const TextStyle(fontSize: 16),
+                        controller: usernameController
+                      ) 
+                    ),
+                    const SizedBox(height: 20),
+                    Container(
+                      padding: const EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(50)
+                      ),
+                      child: TextField(
+                        onChanged: (text) {
+                          setState(() {});
+                        },
+                        obscureText: true,
+                        obscuringCharacter: &#34;*&#34;,
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(Icons.lock, color: Utils.mainThemeColor),
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          disabledBorder: InputBorder.none,
+                          contentPadding: EdgeInsets.only(
+                            left: 15, bottom: 11, top: 11, right: 15
+                          ),
+                          hintText: &#34;Password&#34;
+                        ),
+                        controller: passwordController,
+                        style: const TextStyle(fontSize: 16),
+                      )
+                    )
+                  ]
+                )
+              )
+            ),
+            FlutterBankMainButton(
+              label: &#39;Sign In&#39;,
+              enabled: true,
+              onTap: () {}
+            ),
+            const SizedBox(height: 10),
+            FlutterBankMainButton(
+              label: &#39;Register&#39;,
+              icon: Icons.account_circle,
+              onTap: () {},
+              backgroundColor: Utils.mainThemeColor.withOpacity(0.05),
+              iconColor: Utils.mainThemeColor,
+              labelColor: Utils.mainThemeColor
+            ) 
+          ]
+        ),
+      ),
+    );
+  }
+}
+
+class FlutterBankMainButton extends StatelessWidget {
+  
+  final Function? onTap;
+  final String? label;
+  final bool? enabled;
+  final IconData? icon;
+  final Color? backgroundColor;
+  final Color? iconColor;
+  final Color? labelColor;
+  
+  const FlutterBankMainButton({
+    Key? key, this.label, this.onTap, 
+    this.icon, 
+    this.backgroundColor = Utils.mainThemeColor, 
+    this.iconColor = Colors.white,
+    this.labelColor = Colors.white,
+    this.enabled = true })
+  : super(key: key);
+  
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(50),
+          child: Material(
+            color: enabled! ? backgroundColor : backgroundColor!.withOpacity(0.5),
+              child: InkWell(
+              onTap: enabled! ? () {
+                onTap!();
+              } : null,
+              highlightColor: Colors.white.withOpacity(0.2),
+              splashColor: Colors.white.withOpacity(0.1),
+              child: Container(
+                padding: const EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50)
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Visibility(
+                        visible: icon != null,
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 20),
+                          child: Icon(icon, color: iconColor, size: 20),
+                        )
+                      ),
+                      Text(label!, textAlign: TextAlign.center, 
+                        style: TextStyle(
+                          color: labelColor, 
+                          fontWeight: FontWeight.bold
+                        )
+                    )
+                  ]
+                )
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+}
+
+
+class Utils {
+  static const Color mainThemeColor = Color(0xFF8700C3);
+}
+
+
+</code></pre>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>
